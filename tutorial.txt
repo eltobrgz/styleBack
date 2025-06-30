@@ -1,0 +1,135 @@
+# Tutorial de Configuração do Backend Style
+
+Este tutorial irá guiá-lo através do processo de configuração do backend do projeto Style, utilizando Prisma, Express e Supabase.
+
+## Pré-requisitos
+
+- Node.js (versão 14 ou superior)
+- npm ou yarn
+- Conta no Supabase (https://supabase.io)
+
+## Passo 1: Configuração Inicial
+
+1. Navegue até a pasta do backend:
+   ```
+   cd c:\dev\style\backend
+   ```
+
+2. Inicialize o projeto Node.js:
+   ```
+   npm init -y
+   ```
+
+3. Instale as dependências necessárias:
+   ```
+   npm install express cors dotenv bcrypt jsonwebtoken multer @prisma/client @supabase/supabase-js
+   ```
+
+4. Instale as dependências de desenvolvimento:
+   ```
+   npm install -D prisma nodemon
+   ```
+
+## Passo 2: Configuração do Prisma
+
+1. Inicialize o Prisma:
+   ```
+   npx prisma init
+   ```
+
+2. Configure o arquivo .env com suas credenciais do Supabase:
+   ```
+   DATABASE_URL="postgresql://postgres:[SEU-PASSWORD]@db.[SEU-PROJECT-REF].supabase.co:5432/postgres"
+   SUPABASE_URL="https://[SEU-PROJECT-REF].supabase.io"
+   SUPABASE_KEY="[SUA-SUPABASE-KEY]"
+   JWT_SECRET="[SUA-JWT-SECRET]"
+   ```
+
+3. Substitua os valores entre colchetes pelas suas credenciais do Supabase.
+
+## Passo 3: Configuração do Supabase
+
+1. Crie um novo projeto no Supabase (https://app.supabase.io).
+
+2. No painel do Supabase, vá para "Storage" e crie dois buckets:
+   - `profile-images`: para armazenar fotos de perfil
+   - `clothing-images`: para armazenar imagens de roupas
+
+3. Configure as permissões dos buckets para permitir upload autenticado.
+
+## Passo 4: Iniciar o Servidor
+
+1. Para iniciar o servidor em modo de desenvolvimento:
+   ```
+   npm run dev
+   ```
+
+2. Para iniciar o servidor em modo de produção:
+   ```
+   npm start
+   ```
+
+## Estrutura do Projeto
+
+```
+backend/
+  ├── prisma/
+  │   └── schema.prisma    # Esquema do banco de dados
+  ├── src/
+  │   ├── controllers/     # Controladores da API
+  │   ├── middlewares/     # Middlewares (autenticação, etc.)
+  │   ├── routes/          # Rotas da API
+  │   ├── services/        # Serviços (Supabase, etc.)
+  │   ├── utils/           # Utilitários
+  │   └── index.js         # Ponto de entrada da aplicação
+  ├── .env                 # Variáveis de ambiente
+  ├── package.json         # Dependências e scripts
+  └── tutorial.txt         # Este tutorial
+```
+
+## Endpoints da API
+
+- **Autenticação**:
+  - POST /api/auth/register - Registrar novo usuário
+  - POST /api/auth/login - Login de usuário
+
+- **Usuários**:
+  - GET /api/users/me - Obter dados do usuário atual
+  - PUT /api/users/me - Atualizar dados do usuário atual
+  - POST /api/users/me/profile-image - Fazer upload de imagem de perfil
+
+- **Preferências**:
+  - GET /api/preferences - Obter preferências do usuário
+  - POST /api/preferences - Salvar preferências do usuário
+  - PUT /api/preferences - Atualizar preferências do usuário
+
+- **Combinações**:
+  - GET /api/combinations - Listar combinações do usuário
+  - POST /api/combinations - Criar nova combinação
+  - GET /api/combinations/:id - Obter detalhes de uma combinação
+  - DELETE /api/combinations/:id - Excluir uma combinação
+  - POST /api/combinations/:id/images - Fazer upload de imagens para uma combinação
+
+## Integração com o Frontend
+
+Para integrar o backend com o frontend, você precisará atualizar as URLs das requisições no frontend para apontar para o seu servidor backend. Por exemplo:
+
+```javascript
+// Antes (mockado):
+console.log("Simulando login de usuário:", user);
+
+// Depois (integrado com backend):
+fetch('http://localhost:3000/api/auth/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(user)
+})
+.then(response => response.json())
+.then(data => {
+  // Processar resposta
+});
+```
+
+Certifique-se de atualizar todas as chamadas de API no frontend para usar os endpoints corretos do backend.

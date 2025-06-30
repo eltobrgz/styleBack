@@ -1,0 +1,31 @@
+# Dependências
+node_modules/
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Diretório de build
+dist/
+build/
+
+# Arquivos temporários
+tmp/
+temp/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de IDE/editores
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Uploads locais (se houver)
+uploads/
